@@ -52,4 +52,4 @@ Every fund name and number is made up. The bank data comes from Capital One's Ne
 
 ## Team
 
-Built by [team name] at Technica 2026.
+Built by Avanish Poudyal, Prajwal Shrestha, and Shemmy Taiwo at Technica 2026.
