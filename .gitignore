@@ -1,0 +1,15 @@
+# Environment variables and keys
+.env
+.env*.local
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Build output and dependencies
+node_modules
+.next/
+tsconfig.tsbuildinfo
+
+# OS files
+.DS_Store

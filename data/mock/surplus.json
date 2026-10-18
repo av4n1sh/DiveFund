@@ -1,0 +1,15 @@
+{
+  "accountId": null,
+  "months": [
+    { "month": "2026-04", "deposits": 3200, "spending": 2840 },
+    { "month": "2026-05", "deposits": 3200, "spending": 2710 },
+    { "month": "2026-06", "deposits": 3350, "spending": 3020 },
+    { "month": "2026-07", "deposits": 3200, "spending": 2760 },
+    { "month": "2026-08", "deposits": 3200, "spending": 2690 },
+    { "month": "2026-09", "deposits": 3400, "spending": 2930 }
+  ],
+  "averageDeposits": 3258,
+  "averageSpending": 2825,
+  "monthlySurplus": 433,
+  "mocked": true
+}
