@@ -3,6 +3,7 @@
 import useSWR from 'swr'
 import { Sparkles } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { DIVE_GUIDE_NAME } from '@/data/guidePersona'
 import { postJson, useDebounced, useGuideContext } from '@/hooks/use-guide-context'
 
 interface InsightResponse {
@@ -10,7 +11,13 @@ interface InsightResponse {
   fallback: boolean
 }
 
-export function InsightStrip({ level }: { level: number }) {
+export function InsightStrip({
+  level,
+  guideName = DIVE_GUIDE_NAME,
+}: {
+  level: number
+  guideName?: string
+}) {
   const context = useDebounced(useGuideContext(level), 900)
   const { data, isLoading } = useSWR<InsightResponse>(['/api/guide/insight', context], postJson, {
     revalidateOnFocus: false,
@@ -21,7 +28,7 @@ export function InsightStrip({ level }: { level: number }) {
     <section aria-labelledby="insight-heading" aria-live="polite" className="flex flex-col gap-3 rounded-3xl bg-card p-5">
       <h2 id="insight-heading" className="flex items-center gap-2 font-heading font-semibold">
         <Sparkles className="size-4 text-xp" aria-hidden="true" />
-        {"Finn's read on your mix"}
+        {`${guideName}'s read on your mix`}
       </h2>
       {!data && isLoading ? (
         <div className="flex flex-col gap-2">

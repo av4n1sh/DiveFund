@@ -3,14 +3,25 @@ import { OpenGuideLink } from '@/components/guide/guide-layout'
 import { getLevel } from '@/data/levels'
 import { FUND_BY_ID } from '@/lib/funds'
 
-export function LearnCard({ level }: { level: number }) {
+export function LearnCard({
+  level,
+  guideName = 'Atlas',
+}: {
+  level: number
+  guideName?: string
+}) {
   const data = getLevel(level)
   if (!data) return null
   return (
     <section aria-labelledby="learn-heading" className="flex flex-col gap-4 rounded-3xl bg-card p-6">
-      <p className="text-sm font-medium text-primary">
-        Depth {data.id} · {data.name}
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-sm font-medium text-primary">
+          Depth {data.id} · {data.name}
+        </p>
+        <span className="rounded-full border border-primary/30 bg-secondary px-3 py-0.5 font-mono text-xs text-primary">
+          Dive Guide: {guideName}
+        </span>
+      </div>
       <h1 id="learn-heading" className="text-balance font-heading text-3xl font-bold tracking-tight md:text-4xl">
         {data.conceptTitle}
       </h1>
@@ -31,7 +42,7 @@ export function LearnCard({ level }: { level: number }) {
           })}
         </ul>
       </div>
-      <OpenGuideLink />
+      <OpenGuideLink guideName={guideName} />
     </section>
   )
 }

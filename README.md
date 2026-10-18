@@ -14,7 +14,15 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Then open http://localhost:3000.
+### Core 3D, Motion & Spatial Dependencies
+
+To install or update the spatial WebGL and motion libraries required for the **DiveFund** experience, run:
+
+```bash
+npm install three @types/three @react-three/fiber @react-three/drei framer-motion
+```
+
+Then open [http://localhost:3000](http://localhost:3000).
 
 It works with no API keys, using sample data. Two optional keys turn on the live services:
 
@@ -23,11 +31,48 @@ It works with no API keys, using sample data. Two optional keys turn on the live
 
 Run the tests with `npm test`.
 
+---
+
+## Architecture & Troubleshooting Guide (Next.js 16 + React 19 + R3F)
+
+### 1. Next.js 16 Client Component Configuration (`"use client"`)
+- Three.js (`three`), `@react-three/fiber`, `@react-three/drei`, and `framer-motion` rely on browser-only DOM, WebGL (`HTMLCanvasElement`), and `window` APIs.
+- Every file that mounts a `<Canvas>`, uses R3F hooks (`useFrame`, `useThree`), or binds Framer Motion scroll/spring hooks (`useScroll`, `useSpring`, `useTransform`) **must** declare `'use client'` on line 1.
+
+### 2. Dynamic Server-Side Rendering Safeguards (`ssr: false`)
+- To prevent hydration mismatches or `ReferenceError: window is not defined` during Next.js 16 Server-Side Rendering, heavy background WebGL scenes (`OceanBiomeEnvironment.tsx` and `SimpleMaritimeArtifact.tsx`) are dynamically imported with `ssr: false`:
+  ```tsx
+  const OceanBiomeEnvironment = dynamic(
+    () => import('@/components/landing/OceanBiomeEnvironment').then((m) => m.OceanBiomeEnvironment),
+    { ssr: false }
+  )
+  ```
+- For the 5.5-second Captain Silas intro sequence (`DiverPlungeLoader.tsx`), `HomePage` tracks an explicit `const [showIntro, setShowIntro] = useState(true)` guard that locks scrolling (`document.body.style.overflow = 'hidden'`) while active and **completely unmounts** `<DiverPlungeLoader />` (`setShowIntro(false)`) and resets `document.body.style.overflow = 'unset'` the moment the 5.5-second sequence finishes.
+
+### 3. Browser Security Autoplay Audio Constraints
+- Modern browsers block unmuted `<audio>` playback until the user interacts with the page (`NotAllowedError: play() failed because the user didn't interact with the document first`).
+- `components/audio/AudioSystem.tsx` initializes the local `/audio/ambient-dive.mp3` loop in a **muted** state with a subtle volume cap (`audio.volume = 0.08`).
+- A one-time global interaction listener (`pointerdown` / `keydown`) safely unmutes and starts playback on the user's first click or tap, and users can toggle sound at any time via the navbar `<AudioToggle />` wave button.
+
+### 4. Standard Asset File Paths
+In Next.js App Router, static files inside `public/` are served from the root URL path (`/`):
+- **Ambient Audio Loop**: Place your MP3 file at `public/audio/ambient-dive.mp3` (referenced in code as `/audio/ambient-dive.mp3`).
+- **Custom Brand Logo**: Place your logo image at `public/images/divefund-logo.png` (referenced in `components/site-header.tsx` inside the `<!-- INSERT USER LOGO HERE -->` wrapper as `/images/divefund-logo.png`).
+- **Step Illustrations**: Located at `public/images/step-connect.png`, `public/images/step-learn.png`, and `public/images/step-dive.png`.
+
+---
+
 ## How it's organized
 
-- `app/` holds the pages: welcome, connect (pick a sample account), `dive/[level]` (the game loop), and summary.
+- `app/` holds the pages: welcome (`app/page.tsx`), connect (pick a sample account), `dive/[level]` (the game loop), and summary.
 - `app/api/` holds the server routes for funds, Nessie, and the guide. API keys only live here.
-- `components/` holds the UI pieces (sliders, chart, quiz, chat panel).
+- `components/landing/` holds the 3D WebGL components:
+  - `DiverPlungeLoader.tsx` — 5.5s Captain Silas wide-angle descent with abyssal bioluminescent helmet glow.
+  - `OceanBiomeEnvironment.tsx` — Living deep-sea biome with marine snow, swimming fish silhouettes, and the abyssal bioluminescent anglerfish.
+  - `SimpleMaritimeArtifact.tsx` — Tactile matte diving helmet, admiralty anchor, and brass pocket compass profile meshes.
+  - `SpatialTiltCard.tsx` — 1200px CSS 3D perspective and hover elevation wrapper.
+- `components/audio/AudioSystem.tsx` — Autoplay-safe `0.08`-volume local MP3 audio provider and navbar wave toggle.
+- `components/route-transition.tsx` — Kinetic route transition provider with dark-indigo caustic mask.
 - `lib/simulate.ts` does the portfolio math (growth, fees, fee drag).
 - `lib/game.ts` tracks XP, badges, and level unlocking, saved in localStorage.
 - `lib/guide/` is the AI guide: a small interface, a Gemini implementation, and an offline one that uses scripted answers.

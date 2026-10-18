@@ -81,7 +81,7 @@ export function GuidePanel() {
         ref={fabRef}
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={unread ? 'Open Dive Guide, new message' : 'Open Dive Guide'}
+        aria-label={unread ? 'Open Atlas Dive Guide, new message' : 'Open Atlas Dive Guide'}
         aria-expanded={open}
         aria-controls="dive-guide-panel"
         className={cn(
@@ -91,7 +91,7 @@ export function GuidePanel() {
         tabIndex={open ? -1 : 0}
       >
         <MessageCircle className="size-5" aria-hidden="true" />
-        Guide
+        Atlas
         {unread && (
           <span className="absolute -top-0.5 -right-0.5 size-3.5 rounded-full border-2 border-background bg-destructive" aria-hidden="true" />
         )}
@@ -99,7 +99,7 @@ export function GuidePanel() {
 
       <aside
         id="dive-guide-panel"
-        aria-label="Dive Guide chat"
+        aria-label="Atlas Dive Guide chat"
         hidden={!open}
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
@@ -159,7 +159,7 @@ export function GuidePanel() {
             <MessageCircle className="size-4" />
           </span>
           <div className="flex min-w-0 flex-1 flex-col">
-            <h2 className="font-heading text-base font-semibold leading-tight">Dive Guide</h2>
+            <h2 className="font-heading text-base font-semibold leading-tight">Atlas · Dive Guide</h2>
             <p className="flex items-center gap-1 text-xs text-muted-foreground">
               <Sparkles className="size-3 text-primary" aria-hidden="true" />
               Powered by Gemini

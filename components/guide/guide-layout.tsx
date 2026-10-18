@@ -25,7 +25,7 @@ export function GuideLayout({ level, children }: { level?: number; children: Rea
   )
 }
 
-export function OpenGuideLink() {
+export function OpenGuideLink({ guideName = 'Atlas' }: { guideName?: string }) {
   const { setOpen } = useGuide()
   return (
     <button
@@ -33,7 +33,7 @@ export function OpenGuideLink() {
       onClick={() => setOpen(true)}
       className="self-start rounded-md text-sm font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
     >
-      Chat with the Guide
+      Chat with {guideName} (Dive Guide)
     </button>
   )
 }

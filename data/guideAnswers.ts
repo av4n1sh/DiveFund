@@ -314,8 +314,8 @@ export const GUIDE_ENTRIES: GuideEntry[] = [
 ]
 
 export const GUIDE_GREETINGS: Record<number, string> = {
-  1: 'Welcome to The Shallows! Ask me anything about what an ETF actually is.',
-  2: 'The Reef is where risk shows up. Curious how bonds calm the water?',
+  1: 'Welcome to The Shallows! I’m Atlas, your Dive Guide. Ask me anything about what an ETF actually is.',
+  2: 'Atlas here—The Reef is where risk shows up. Curious how bonds calm the water?',
   3: 'Kelp Forest time: let’s untangle how tiny fees grow over the years.',
   4: 'Open Ocean! Ask me how active and passive funds really differ.',
   5: 'You made it to The Trench. Let’s talk diversification and time.',

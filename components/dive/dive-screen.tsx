@@ -15,8 +15,15 @@ import { InsightStrip } from '@/components/dive/insight-strip'
 import { ActCard } from '@/components/dive/act-card'
 import { QuizCard } from '@/components/dive/quiz-card'
 import { GuideLayout } from '@/components/guide/guide-layout'
+import { DIVE_GUIDE_NAME } from '@/data/guidePersona'
 
-export function DiveScreen({ level }: { level: number }) {
+export function DiveScreen({
+  level,
+  guideName = DIVE_GUIDE_NAME,
+}: {
+  level: number
+  guideName?: string
+}) {
   const { state, hydrated } = useGame()
   const router = useRouter()
 
@@ -46,14 +53,14 @@ export function DiveScreen({ level }: { level: number }) {
             <DepthStepper viewing={level} currentLevel={state.currentLevel} passed={state.passedQuizzes} />
             <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-5">
               <div className="flex min-w-0 flex-col gap-6 lg:col-span-3">
-                <LearnCard level={level} />
+                <LearnCard level={level} guideName={guideName} />
                 <BuildCard />
               </div>
               <div className="flex min-w-0 flex-col gap-6 lg:sticky lg:top-20 lg:col-span-2">
                 <ProjectionPanel />
-                <InsightStrip level={level} />
+                <InsightStrip level={level} guideName={guideName} />
                 <ActCard level={level} />
-                <QuizCard level={level} />
+                <QuizCard level={level} guideName={guideName} />
               </div>
             </div>
           </>

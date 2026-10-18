@@ -20,7 +20,13 @@ interface Question {
 
 const PASS_SCORE = 2
 
-export function QuizCard({ level }: { level: number }) {
+export function QuizCard({
+  level,
+  guideName = 'Atlas',
+}: {
+  level: number
+  guideName?: string
+}) {
   const { state, passQuiz } = useGame()
   const context = useGuideContext(level)
   const [questions, setQuestions] = useState<Question[] | null>(null)
@@ -77,7 +83,7 @@ export function QuizCard({ level }: { level: number }) {
           Depth check
         </h2>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Get {PASS_SCORE} of 3 right to descend. Finn writes questions about your own mix.
+          Get {PASS_SCORE} of 3 right to descend. {guideName} writes questions about your own mix.
         </p>
       </div>
 
