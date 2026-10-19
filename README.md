@@ -13,20 +13,36 @@ From the repository root:
 ```sh
 npm install --global pnpm@12.3.4
 pnpm install --frozen-lockfile
-pnpm dev
+pnpm dev --port 3001
 ```
 
-Open [http://localhost:3000](http://localhost:3000), or the address printed by the server if that port is occupied. Keep the terminal open; press Ctrl+C to stop it. The 3D, animation, and UI dependencies are already included in `package.json`.
+Open [http://localhost:3001](http://localhost:3001) to use the local demo. These commands explicitly select port **3001**. Keep the terminal open; press Ctrl+C to stop it. The 3D, animation, and UI dependencies are already included in `package.json`.
 
 On Windows PowerShell, use the `.cmd` commands if script execution policy blocks `npm` or `pnpm`:
 
 ```powershell
 npm.cmd install --global pnpm@12.3.4
 pnpm.cmd install --frozen-lockfile
-pnpm.cmd dev
+pnpm.cmd dev --port 3001
 ```
 
-An npm lockfile is also checked in. If you already use npm, the equivalent setup is `npm ci` followed by `npm run dev` (`npm.cmd ci` and `npm.cmd run dev` in PowerShell). Keep dependency changes consistent with the package manager you use; do not regenerate both lockfiles incidentally.
+An npm lockfile is also checked in. If you already use npm, run:
+
+```sh
+npm ci
+npm run dev -- --port 3001
+```
+
+In Windows PowerShell:
+
+```powershell
+npm.cmd ci
+npm.cmd run dev -- --port 3001
+```
+
+If dependencies are already installed, just run the dev command. If the app is already running on port 3001, open [http://localhost:3001](http://localhost:3001) directly. If startup reports that port 3001 is in use, check the terminal running your existing demo before starting another server.
+
+The `dev` script itself remains `next dev`; running it without the port argument uses Next.js's default port 3000, which may fall back to another available port. Use the explicit commands above to request 3001. Keep dependency changes consistent with the package manager you use; do not regenerate both lockfiles incidentally.
 
 ## Optional services
 
@@ -79,7 +95,7 @@ Progress is saved in browser localStorage under `divefund:v1`. Chat history and 
 
 | Command | Purpose |
 | --- | --- |
-| `pnpm dev` | Start the Next.js development server. |
+| `pnpm dev --port 3001` | Start the Next.js development server on port 3001. |
 | `pnpm test` | Run Vitest tests matching `lib/**/*.test.ts` (currently the simulation tests). |
 | `pnpm exec tsc --noEmit` | Check TypeScript separately. |
 | `pnpm build` | Create a production build. |
