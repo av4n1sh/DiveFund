@@ -1,5 +1,7 @@
 # DiveFund
 
+Open the website here: [https://divefund.netlify.app/](https://divefund.netlify.app/).
+
 DiveFund is an ocean-themed game that teaches beginners how ETF investing works. Build a portfolio from eight fictional funds, compare growth with and without fees, and complete five lessons with Atlas, the Dive Guide. Built for Technica 2026, theme "Dare to Dive". All projections are educational simulations, not financial advice.
 
 We built it because investing tools often assume you already know the vocabulary, and fees are easy to overlook. DiveFund lets you experiment safely and see those costs over time.
